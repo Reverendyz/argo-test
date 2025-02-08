@@ -6,10 +6,10 @@ metadata:
 spec:
   generators:
     - git:
-        repoURL: https://github.com/reverendyz/argo-test.git  # ✅ Moved inside `git`
-        revision: HEAD  # ✅ Moved inside `git`
+        repoURL: https://github.com/reverendyz/argo-test.git
+        revision: HEAD
         files:
-          - path: argocd/projects/projects.yaml  # ✅ Moved inside `git`
+          - path: argocd/projects/projects.yaml
   template:
     metadata:
       name: '{{project}}-app'
@@ -18,7 +18,7 @@ spec:
       source:
         repoURL: https://github.com/reverendyz/helm-charts.git
         targetRevision: HEAD
-        path: sample-service
+        path: sample-service/timer-api
         helm:
           valueFiles:
             - argocd/infrastructure/{{project}}/values.yaml
