@@ -1,0 +1,8 @@
+- project: project-a
+  namespace: app-project-a
+
+- project: project-b
+  namespace: app-project-b
+
+- project: project-c
+  namespace: app-project-c
