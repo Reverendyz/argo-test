@@ -6,11 +6,10 @@ metadata:
 spec:
   generators:
     - git:
-      repoURL: https://github.com/reverendyz/argo-test.git
-      revision: HEAD
-      files:
-        - path: argocd/projects/projects.yaml
-
+        repoURL: https://github.com/reverendyz/argo-test.git  # ✅ Moved inside `git`
+        revision: HEAD  # ✅ Moved inside `git`
+        files:
+          - path: argocd/projects/projects.yaml  # ✅ Moved inside `git`
   template:
     metadata:
       name: '{{project}}-app'
@@ -22,10 +21,13 @@ spec:
         path: sample-service
         helm:
           valueFiles:
-            - argocd/infrastructure/project-a/values.yaml
+            - argocd/infrastructure/{{project}}/values.yaml
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
       syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
         syncOptions:
           - CreateNamespace=true
