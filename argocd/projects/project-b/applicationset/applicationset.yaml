@@ -9,7 +9,7 @@ spec:
         repoURL: https://github.com/reverendyz/argo-test.git
         revision: HEAD
         files:
-          - path: argocd/projects/{{project}}/project.yaml
+          - path: argocd/projects/project-b/project.yaml
   template:
     metadata:
       name: '{{project}}-app'
