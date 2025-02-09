@@ -21,7 +21,7 @@ spec:
         path: sample-service/timer-api
         helm:
           valueFiles:
-            - argocd/infrastructure/{{project}}/values.yaml
+            - values.yaml
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
