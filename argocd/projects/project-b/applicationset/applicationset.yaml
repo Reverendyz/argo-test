@@ -9,19 +9,23 @@ spec:
         repoURL: https://github.com/reverendyz/argo-test.git
         revision: HEAD
         files:
-          - path: argocd/infrastructure/**/values.yaml
+          - path: argocd/projects/{{project}}/project.yaml
   template:
     metadata:
       name: '{{project}}-app'
     spec:
       project: default
-      source:
-        repoURL: https://github.com/reverendyz/helm-charts.git
-        targetRevision: HEAD
-        path: sample-service/timer-api
-        helm:
-          valueFiles:
-            - infrastructure/{{project}}/values.yaml
+      sources:
+        - repoURL: https://github.com/reverendyz/argo-test.git
+          targetRevision: HEAD
+          ref: valuesRef
+        - repoURL: https://github.com/reverendyz/helm-charts.git
+          targetRevision: main
+          path: sample-service/timer-api
+          helm:
+            valueFiles:
+              - "$valuesRef/argocd/projects/{{project}}/defaults/values.yaml"
+              - "$valuesRef/argocd/projects/{{project}}/overrides/values.yaml"
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
