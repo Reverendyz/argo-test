@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: timer-getter
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/reverendyz/argo-test.git
+        revision: HEAD
+        files:
+          - path: argocd/infrastructure/**/values.yaml
+  template:
+    metadata:
+      name: '{{project}}-app'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/reverendyz/helm-charts.git
+        targetRevision: HEAD
+        path: sample-service/timer-api
+        helm:
+          valueFiles:
+            - infrastructure/{{project}}/values.yaml
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

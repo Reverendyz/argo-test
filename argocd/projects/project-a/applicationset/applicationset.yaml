@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: timer-getter
+  name: timer-getter-project-a
   namespace: argocd
 spec:
   generators:
@@ -9,7 +9,7 @@ spec:
         repoURL: https://github.com/reverendyz/argo-test.git
         revision: HEAD
         files:
-          - path: argocd/projects/projects.yaml
+          - path: argocd/projects/project-a/project.yaml
   template:
     metadata:
       name: '{{project}}-app'
@@ -21,7 +21,8 @@ spec:
         path: sample-service/timer-api
         helm:
           valueFiles:
-            - values.yaml
+            - argocd/projects/{{project}}/defaults/values.yaml
+            - argocd/projects/{{project}}/overrides/values.yaml
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
