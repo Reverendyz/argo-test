@@ -1,11 +1,11 @@
-replicaCount: 3
+replicaCount: 2
 
 env:
-  port: 8080
+  port: 8081
 
 imagePullSecrets:
   - dockerhub-secret
 
 service:
   type: NodePort
-  targetPort: 8080
+  targetPort: 8081
