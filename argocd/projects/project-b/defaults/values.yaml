@@ -9,3 +9,4 @@ imagePullSecrets:
 service:
   type: NodePort
   targetPort: 8081
+  nodePort: 30081
