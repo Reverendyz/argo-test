@@ -5,3 +5,7 @@ repos:
       - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
+  - repo: https://github.com/miklisanton/pre-commit-golang
+    rev: fbb934e3841511edad974ce023c4d3b93911082d # master
+    hooks:
+      - id: go-fmt
