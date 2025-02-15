@@ -19,6 +19,7 @@ func main() {
 		AllowMethods: []string{"GET"},
 		AllowHeaders: []string{"*"},
 	}))
+	router.GET("/", handlers.Heathz)
 	router.GET("/timer", handlers.TimerHandler)
 
 	router.Run(fmt.Sprintf("%s:%s", host, port))
