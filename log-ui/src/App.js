@@ -2,16 +2,14 @@ import { useState } from 'react';
 import './App.css';
 import Button from '@mui/material/Button';
 
-// Use environment variables with a default value if not set
-const HOST = import.meta.env.VITE_API_HOST || '0.0.0.0';
-const PORT = import.meta.env.VITE_API_PORT || '3000';
+const HOST = process.env.API_HOST || '127.0.0.1';
+const PORT = process.env.API_PORT || '8080';
 
 function App() {
   const [response, setResponse] = useState(null);
 
   const fetchTime = async () => {
-    const endpoint = `http://${HOST}:${PORT}/time`;
-
+    const endpoint = `http://${HOST}:${PORT}/timer`;
     try {
       const res = await fetch(endpoint);
       const data = await res.json();
@@ -32,7 +30,7 @@ function App() {
             <strong>Hostname:</strong> {response.hostname}
           </p>
           <p>
-            <strong>Time:</strong> {response.time}
+            <strong>Date:</strong> {response.time}
           </p>
         </div>
       )}
