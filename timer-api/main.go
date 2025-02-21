@@ -7,6 +7,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/reverendyz/timer/handlers"
+	"github.com/reverendyz/timer/utils"
 )
 
 func main() {
@@ -20,7 +21,11 @@ func main() {
 		AllowHeaders: []string{"*"},
 	}))
 	router.GET("/", handlers.Heathz)
-	router.GET("/timer", handlers.TimerHandler)
+	router.POST("/login", handlers.Login)
+	protected := router.Group("/", utils.AuthMiddleware())
+	{
+		protected.GET("/timer", handlers.TimerHandler)
+	}
 
 	router.Run(fmt.Sprintf("%s:%s", host, port))
 }
