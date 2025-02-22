@@ -1,0 +1,43 @@
+name: push_images
+on:
+  push:
+    branches:
+      - main
+      - feature/*
+      - fix/*
+      - chore/*
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-go-package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: get short commit sha
+        id: docker_tag
+        run: |
+          set -euo pipefail
+          if [ "$GITHUB_REF_NAME" != "main" ]; then
+            DOCKER_TAG="$(git rev-parse --short HEAD)"
+          else
+            DOCKER_TAG="latest"
+          fi
+          echo "DOCKER_TAG=$DOCKER_TAG" >> $GITHUB_OUTPUT
+
+      - name: Build and push image
+        uses: docker/build-push-action@0adf9959216b96bec444f325f1e493d4aa344497
+        with:
+          context: ./timer-api
+          file: Dockerfile
+          push: true
+          tags: ${{ steps.docker_tag.outputs.DOCKER_TAG }}
