@@ -1,25 +1,17 @@
 package handlers
 
 import (
-	"crypto/rand"
-	"encoding/hex"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/reverendyz/timer/utils"
 )
 
 type LoginPayload struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
-}
-
-func generateRandomToken(n int) (string, error) {
-	bytes := make([]byte, n)
-	if _, err := rand.Read(bytes); err != nil {
-		return "", err
-	}
-	return hex.EncodeToString(bytes), nil
 }
 
 func Login(c *gin.Context) {
@@ -31,17 +23,21 @@ func Login(c *gin.Context) {
 	}
 
 	if payload.Username == "admin" && payload.Password == "password" {
-		token, err := generateRandomToken(16)
+		claims := jwt.RegisteredClaims{
+			Subject:   payload.Username,
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(2 * time.Hour)),
+			IssuedAt:  jwt.NewNumericDate(time.Now()),
+		}
+
+		token := jwt.NewWithClaims(jwt.SigningMethodEdDSA, claims)
+
+		tokenString, err := token.SignedString(utils.JwtPrivateKey)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 			return
 		}
 
-		fullToken := "Bearer " + token
-
-		utils.AddValidToken(fullToken)
-
-		c.JSON(http.StatusOK, gin.H{"token": token})
+		c.JSON(http.StatusOK, gin.H{"token": tokenString})
 		return
 	}
 
