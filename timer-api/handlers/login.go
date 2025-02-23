@@ -1,11 +1,11 @@
 package handlers
 
 import (
-	"crypto/rand"
-	"encoding/hex"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/reverendyz/timer/utils"
 )
 
@@ -14,36 +14,43 @@ type LoginPayload struct {
 	Password string `json:"password"`
 }
 
-func generateRandomToken(n int) (string, error) {
-	bytes := make([]byte, n)
-	if _, err := rand.Read(bytes); err != nil {
-		return "", err
-	}
-	return hex.EncodeToString(bytes), nil
+type JwtCustomToken struct {
+	Username string `json:"username"`
+	jwt.RegisteredClaims
 }
 
 func Login(c *gin.Context) {
 	var payload LoginPayload
 
 	if err := c.ShouldBindJSON(&payload); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Payload inválido"})
 		return
 	}
 
 	if payload.Username == "admin" && payload.Password == "password" {
-		token, err := generateRandomToken(16)
+		now := time.Now()
+		claims := JwtCustomToken{
+			Username: payload.Username,
+			RegisteredClaims: jwt.RegisteredClaims{
+				Issuer:    "revzwebapp.com",
+				Subject:   "login",
+				Audience:  []string{"developers", "students", "hackers"},
+				IssuedAt:  jwt.NewNumericDate(now),
+				NotBefore: jwt.NewNumericDate(now),
+				ExpiresAt: jwt.NewNumericDate(now.Add(1 * time.Hour)),
+			},
+		}
+
+		token := jwt.NewWithClaims(jwt.SigningMethodEdDSA, claims)
+		tokenString, err := token.SignedString(utils.JwtPrivateKey)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Falha ao gerar o token"})
 			return
 		}
 
-		fullToken := "Bearer " + token
-
-		utils.AddValidToken(fullToken)
-
-		c.JSON(http.StatusOK, gin.H{"token": token})
+		c.JSON(http.StatusOK, gin.H{"token": tokenString})
 		return
 	}
 
-	c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+	c.JSON(http.StatusUnauthorized, gin.H{"error": "Credenciais inválidas"})
 }

@@ -1,0 +1,10 @@
+image:
+  tag: "442ead7"
+
+secretEnv:
+  - envName: JWT_PRIVATE_KEY
+    secretName: jwt-private-key
+    key: pri
+  - envName: JWT_PUBLIC_KEY
+    secretName: jwt-public-key
+    key: pub

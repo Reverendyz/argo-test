@@ -22,7 +22,7 @@ func main() {
 	}))
 	router.GET("/", handlers.Heathz)
 	router.POST("/login", handlers.Login)
-	protected := router.Group("/", utils.AuthMiddleware())
+	protected := router.Group("/", utils.JWTMiddleware())
 	{
 		protected.GET("/timer", handlers.TimerHandler)
 	}

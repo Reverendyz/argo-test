@@ -7,7 +7,7 @@ spec:
   generators:
     - git:
         repoURL: https://github.com/reverendyz/argo-test.git
-        revision: HEAD
+        revision: feature/implement-jwt-tokens #HEAD
         files:
           - path: argocd/projects/project-a/project.yaml
   template:
@@ -17,15 +17,18 @@ spec:
       project: default
       sources:
         - repoURL: https://github.com/reverendyz/argo-test.git
-          targetRevision: HEAD
+          targetRevision: feature/implement-jwt-tokens #HEAD
           ref: valuesRef
         - repoURL: https://github.com/reverendyz/helm-charts.git
-          targetRevision: main
+          targetRevision: feature/improvements-timer-api-templates
           path: sample-service/timer-api
           helm:
             valueFiles:
               - "$valuesRef/argocd/projects/{{project}}/defaults/values.yaml"
               - "$valuesRef/argocd/projects/{{project}}/overrides/values.yaml"
+        - repoURL: https://github.com/reverendyz/argo-test.git
+          targetRevision: feature/implement-jwt-tokens
+          path: argocd/projects/{{project}}/overrides/sealedsecrets
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
