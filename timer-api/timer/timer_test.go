@@ -20,22 +20,22 @@ func TestResponse_GetTime(t *testing.T) {
 			"timer with no hostname",
 			Response{
 				Hostname: " ",
-				Time:     time.Now().Format("2006-01-02"),
+				Time:     time.Now().Format("2006-01-02T15:04:05"),
 			},
 			Response{
 				Hostname: mockHostname,
-				Time:     time.Now().Format("2006-01-02"),
+				Time:     time.Now().Format("2006-01-02T15:04:05"),
 			},
 		},
 		{
 			"timer with hostname",
 			Response{
 				Hostname: "SomeGarbage",
-				Time:     time.Now().Format("2006-01-02"),
+				Time:     time.Now().Format("2006-01-02T15:04:05"),
 			},
 			Response{
 				Hostname: mockHostname,
-				Time:     time.Now().Format("2006-01-02"),
+				Time:     time.Now().Format("2006-01-02T15:04:05"),
 			},
 		},
 	}

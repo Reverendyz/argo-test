@@ -1,7 +1,19 @@
 replicaCount: 3
 
-env:
-  port: 8080
+namespace: app-project-a
+
+image:
+  tag: latest
+
+secrets:
+  - volumeName: private-key
+    secretName: jwt-private-key
+    key: pri
+    fileName: pri
+  - volumeName: public-key
+    secretName: jwt-public-key
+    key: pub
+    fileName: pub
 
 imagePullSecrets:
   - dockerhub-secret

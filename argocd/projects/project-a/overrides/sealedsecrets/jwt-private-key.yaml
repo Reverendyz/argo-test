@@ -1,0 +1,15 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: jwt-private-key
+  namespace: app-project-a
+spec:
+  encryptedData:
+    pri: AgBCNyPKolxa0dLwLYjsex2w7yY1whWp5PlWKsIbnG6Omc9NwMcVE3vArskyr2zrWYRCrRxrnUcp4qOa1crFS9fWt0R5fDjZvQ5TuaUN4xc+2GsoyZOXzqazZzH6p5rfP/c63jsjfkp8XMrRqY+o2rPPvu/HDZ7sRlOVYD8Ki3wSXdm7P1aJi/JvIJ5bRHsc7EHvZF8IgVJBMtYPg3KEkd8zAAvVEMxJcOHYYWik2sdtQ5ctgFbWJLFMK8vSaWIXgX5sEDYjBfB9b8n8UAW3O4IqOH3ZaJnzt+kNH3RF2Qs24EemWxKS71u0cUYrrrN0KryYH3JMv3bo74ZJ9tM/wShDM76PN4F4TRg+lmBx5nGlLdVioNGqmP7361JvTtrzOk429fDZmkLCvuAH91cvB1cWcdS9SpOqHyMxAB6noVipcH3xu7/ByCN14pRAtx/ExuwV1gaBNTkYJgtrk0WI3DGC30dEk/sSQRho0ZdzbMIh/NCHB+AEOvlKvkNS3ANfNeaWOE4eqZ1jxMAXraG8gEsbNIL/XlEqbsbrZL03WZY2BBLuC0AMxknNklIYPin2DZmUUFYyhCOXiLb/kf1KBmY8t3jOr0nxee927W6u/49yXmszlu6ICPC8kJcDooSDmhcNJymWb8MHpXN8gSTYGeieb5JV2koTDtXpSdKpCxHcVt9UmmgQ/w5E5XUlxOpdeZ3a+QIutvE9Ef1Dg95gkwFaBwUcEratZwY4YUKm/7Jo16erk4jvOrYUvoPUgwSQqkCz/J9zUtxL55ovcVtgx1P+t9Cb88EhUjGPYnl9FkgLWU8vQb9BeHk7mA==
+  template:
+    metadata:
+      creationTimestamp: null
+      name: jwt-private-key
+      namespace: app-project-a

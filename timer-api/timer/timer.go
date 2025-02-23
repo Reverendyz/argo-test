@@ -11,10 +11,10 @@ type Response struct {
 }
 
 func (r *Response) GetTime() Response {
-	currentDate := time.Now().Format("2006-01-02")
+	currentTime := time.Now().Format("2006-01-02T15:04:05")
 
 	return Response{
 		Hostname: os.Getenv("HOSTNAME"),
-		Time:     currentDate,
+		Time:     currentTime,
 	}
 }
