@@ -7,7 +7,7 @@ spec:
   generators:
     - git:
         repoURL: https://github.com/reverendyz/argo-test.git
-        revision: fix/encryption-keys-to-new-host #HEAD
+        revision: HEAD
         files:
           - path: argocd/projects/project-a/project.yaml
   template:
@@ -17,7 +17,7 @@ spec:
       project: default
       sources:
         - repoURL: https://github.com/reverendyz/argo-test.git
-          targetRevision: fix/encryption-keys-to-new-host #HEAD
+          targetRevision: HEAD
           ref: valuesRef
         - repoURL: https://github.com/reverendyz/helm-charts.git
           targetRevision: feature/improvements-timer-api-templates
@@ -27,7 +27,7 @@ spec:
               - "$valuesRef/argocd/projects/{{project}}/defaults/values.yaml"
               - "$valuesRef/argocd/projects/{{project}}/overrides/values.yaml"
         - repoURL: https://github.com/reverendyz/argo-test.git
-          targetRevision: fix/encryption-keys-to-new-host #HEAD
+          targetRevision: HEAD
           path: argocd/projects/{{project}}/overrides/sealedsecrets
       destination:
         server: https://kubernetes.default.svc
