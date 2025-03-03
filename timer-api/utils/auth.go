@@ -46,7 +46,7 @@ func JWTMiddleware() gin.HandlerFunc {
 		now := time.Now()
 
 		if claims.ExpiresAt != nil && now.After(claims.ExpiresAt.Time) {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Token expirado"})
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Expired token"})
 			return
 		}
 

@@ -52,5 +52,5 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusUnauthorized, gin.H{"error": "Credenciais inválidas"})
+	c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid Credentials"})
 }
