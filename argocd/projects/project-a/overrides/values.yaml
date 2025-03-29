@@ -1,5 +1,5 @@
 image:
-  tag: "442ead7"
+  tag: "latest"
 
 secretEnv:
   - envName: JWT_PRIVATE_KEY

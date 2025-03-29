@@ -1,0 +1,19 @@
+kube-prometheus-stack:
+  grafana:
+    adminPassword: "admin"
+    service:
+      type: NodePort
+      nodePort: 32000
+  prometheus:
+    prometheusSpec:
+      retention: 1d
+
+loki-stack:
+  loki:
+    enabled: true
+  promtail:
+    enabled: true
+
+service:
+  servicePort: 9110
+  nodePort: 9110
