@@ -1,37 +1,36 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: timer-getter-project-a
+  name: observability
   namespace: argocd
 spec:
   generators:
     - git:
         repoURL: https://github.com/reverendyz/argo-test.git
-        revision: HEAD
+        revision: feat/update-secrets #HEAD
         files:
-          - path: argocd/projects/project-a/project.yaml
+          - path: argocd/projects/observability/project.yaml
   template:
     metadata:
-      name: '{{project}}-app'
+      name: '{{project}}-prometheus'
     spec:
       project: default
       sources:
         - repoURL: https://github.com/reverendyz/argo-test.git
-          targetRevision: HEAD
+          targetRevision: feat/update-secrets #HEAD
           ref: valuesRef
         - repoURL: https://github.com/reverendyz/helm-charts.git
-          targetRevision: feature/improvements-timer-api-templates
-          path: sample-service/timer-api
+          targetRevision: HEAD
+          path: sample-service/observability
           helm:
             valueFiles:
               - "$valuesRef/argocd/projects/{{project}}/defaults/values.yaml"
-              - "$valuesRef/argocd/projects/{{project}}/overrides/values.yaml"
-        - repoURL: https://github.com/reverendyz/argo-test.git
-          targetRevision: HEAD
-          path: "argocd/projects/{{project}}/overrides/secrets"
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
       syncPolicy:
         syncOptions:
           - CreateNamespace=true
+          - ServerSideApply=true
+
+           
